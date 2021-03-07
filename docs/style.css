@@ -63,10 +63,7 @@ div#main {
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
-}
-div#display_wrap {
-	height: 25vh;
+	justify-content: stretch;
 }
 div#display {
 	margin: 1vw;
