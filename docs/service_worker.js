@@ -1,9 +1,9 @@
 // キャッシュファイルの指定
 var CACHE_NAME = 'rpn-calc-caches';
 var urlsToCache = [
-    '/index.html',
-    '/script.js',
-    '/style.css',
+    '/rpn-calc/index.html',
+    '/rpn-calc/script.js',
+    '/rpn-calc/style.css',
 ];
 
 // インストール処理
