@@ -65,7 +65,12 @@ div#main {
 	flex-direction: column;
 	justify-content: stretch;
 }
+div#display_wrap {
+    margin-bottom: 2vw;
+    flex-grow: 1;
+}
 div#display {
+    height: 100%;
 	margin: 1vw;
 	background-color: rgb(122, 180, 147);
 	color: black;
