@@ -8,8 +8,9 @@ html {
 }
 body {
 	margin: 0px;
-	font-size: 6vw;
+	font-size: 9vw;
 	line-height: 1.2;
+	background-color: #7f7f7f;
 }
 
 button {
@@ -23,13 +24,13 @@ button {
 	justify-content: center;
 	padding-left: 1vw;
 	padding-right: 1vw;
-	margin: 0 1vw;
+	margin: .5vw;
 	height: 5vw;
 	min-width: 5vw;
-	background: #153866;
+	background: #303030;
 	color: #ffffff;
-	font-size: .5em;
-	transition: background 250ms;
+	font-size: 1em;
+	transition: background 100ms;
 }
 button.hover {
 	background: #91a2b8;
@@ -39,8 +40,22 @@ button.disabled {
 	background: #9b9b9b;
 	transition: none;
 }
-select {
-	font-size: .9em;
+button.shift {
+	width: 13vw;
+	height: 7vw;
+}
+button.function {
+	font-size: .5em;
+	width: 15vw;
+	height: 9vw;
+}
+button.number {
+	width: 19vw;
+	height: 15vw;
+}
+button.enter {
+	width: 39vw;
+	height: 15vw;
 }
 
 div#main {
@@ -48,5 +63,36 @@ div#main {
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
+	justify-content: space-between;
+}
+div#display_wrap {
+	height: 25vh;
+}
+div#display {
+	margin: 1vw;
+	background-color: rgb(122, 180, 147);
+	color: black;
+}
+div#functions {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-around;
+}
+div#numbers {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-around;
+}
+div.button_wrap {
+	display: flex;
+	flex-direction: column;
 	justify-content: center;
+}
+
+span.button_shift {
+	color: yellow;
+	text-align: center;
+	vertical-align: bottom;
+	height: 6vw;
+	font-size: .5em;
 }
