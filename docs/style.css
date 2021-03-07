@@ -9,7 +9,7 @@ html {
 }
 body {
 	margin: 0px;
-	font-size: 9vw;
+	font-size: 4vh;
 	line-height: 1.2;
 	background-color: #7f7f7f;
 	font-family: sans-serif;
@@ -45,15 +45,15 @@ button.disabled {
 button.function {
 	font-size: .5em;
 	width: 15vw;
-	height: 10vw;
+	height: 5vh;
 }
 button.number {
 	width: 19vw;
-	height: 15vw;
+	height: 7vh;
 }
 button.enter {
 	width: 39vw;
-	height: 15vw;
+	height: 7vh;
 }
 button.shift {
 	background-color: rgb(219, 186, 0);
@@ -121,10 +121,11 @@ div.stack {
 	transform: scale(0.8, 1);
 }
 
-span.shift_text {
+div.shift_text {
+	display: flex;
 	color: yellow;
-	text-align: center;
-	vertical-align: bottom;
-	height: 6vw;
+	justify-content: center;
+	align-items: flex-end;
+	height: 3vh;
 	font-size: .5em;
 }
