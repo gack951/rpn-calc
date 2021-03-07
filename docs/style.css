@@ -1,4 +1,9 @@
 .material-icons.em-1 { font-size: 1em; }
+@font-face {
+	font-family: 'DSEG7Classic-BoldItalic';
+	src: url(DSEG7Classic-BoldItalic.ttf);
+}
+
 html {
 	touch-action: manipulation;
 }
@@ -88,7 +93,7 @@ div#functions {
 	justify-content: space-around;
 }
 div#numbers {
-	margin: 0vw;
+	margin: 0vw 0vw 1vw 0vw;
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: space-around;
@@ -110,6 +115,10 @@ div.stack_wrap {
 	flex-direction: row;
 	justify-content: space-between;
 	margin: 1vw 10vw 1vw 1vw;
+}
+div.stack {
+	font-family: DSEG7Classic-BoldItalic;
+	transform: scale(0.8, 1);
 }
 
 span.shift_text {
