@@ -1,7 +1,12 @@
 // キャッシュファイルの指定
 var CACHE_NAME = 'rpn-calc-caches';
 var urlsToCache = [
-    'https://gack951.github.io/',
+    '/icon.png',
+    '/index.html',
+    '/manifest.json',
+    '/script.js',
+    '/service_worker.js',
+    '/style.css',
 ];
 
 // インストール処理
