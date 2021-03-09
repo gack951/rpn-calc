@@ -51,7 +51,11 @@ button.number {
 	width: 19vw;
 	height: 7vh;
 }
+button.exp {
+	font-size: .5em;
+}
 button.enter {
+	font-size: .5em;
 	width: 39vw;
 	height: 7vh;
 }
@@ -64,6 +68,9 @@ button.back {
 }
 button.memory {
 	color: rgb(84, 100, 238);
+}
+button.dropswap {
+	color: rgb(214, 25, 25);
 }
 
 div#main {
@@ -106,19 +113,26 @@ div.button_wrap {
 div#status {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
+	width: 100%;
 	font-size: .5em;
 	margin: 1vw;
+}
+div#m, div#drg{
+	width: 30%;
+}
+div#stack_count {
+	width: 35%;
+	text-align: right;
 }
 div.stack_wrap {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	margin: 1vw 10vw 1vw 1vw;
+	margin: 1vw 8vw 1vw 1vw;
 }
 div.stack {
 	font-family: DSEG7Classic-BoldItalic;
-	transform: scale(0.8, 1);
+	/*transform: scale(0.85, 1);*/
 }
 
 div.shift_text {

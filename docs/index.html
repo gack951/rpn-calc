@@ -1,72 +1,81 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>rpn-calc</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-    <link href="style.css" rel="stylesheet" type="text/css" media="all" />
-    <link rel="manifest" href="manifest.json">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="script.js"></script>
-    <link rel="shortcut icon" href="icon.png" type="image/png">
-  </head>
-  <body>
-    <div id="main">
-      <div id="display_wrap">
-        <div id="display">
-            <div id="status">
-                <span id="M">M</span>
-                <span id="drg">DEG</span>
-                <span id="stack">STACK: 1</span>
-            </div>
-            <div class="stack_wrap"><div class="stack_idx">4:</div><div class="stack" id="stack4"></div></div>
-            <div class="stack_wrap"><div class="stack_idx">Z:</div><div class="stack" id="stackz"></div></div>
-            <div class="stack_wrap"><div class="stack_idx">Y:</div><div class="stack" id="stacky"></div></div>
-            <div class="stack_wrap"><div class="stack_idx">X:</div><div class="stack" id="stackx">1234567890</div></div>
-        </div>
-      </div>
-      <div id="functions">
-        <div class="button_wrap"><div class="shift_text"></div><button type="button" class="vibrate1 function shift">SHIFT</button></div>
-        <div class="button_wrap"><div class="shift_text">DRG▶</div><button type="button" class="vibrate1 function">DRG</button></div>
-        <div class="button_wrap"><div class="shift_text">TAB</div><button type="button" class="vibrate1 function">FSE</button></div>
-        <div class="button_wrap"><div class="shift_text">RCL</div><button type="button" class="vibrate1 function memory">MR</button></div>
-        <div class="button_wrap"><div class="shift_text">STO</div><button type="button" class="vibrate1 function memory">MS</button></div>
-        <div class="button_wrap"><div class="shift_text">M-</div><button type="button" class="vibrate1 function memory">M+</button></div>
-        <div class="button_wrap"><div class="shift_text">hyp<sup>-1</sup></div><button type="button" class="vibrate1 function">hyp</button></div>
-        <div class="button_wrap"><div class="shift_text">sin<sup>-1</sup></div><button type="button" class="vibrate1 function">sin</button></div>
-        <div class="button_wrap"><div class="shift_text">cos<sup>-1</sup></div><button type="button" class="vibrate1 function">cos</button></div>
-        <div class="button_wrap"><div class="shift_text">tan<sup>-1</sup></div><button type="button" class="vibrate1 function">tan</button></div>
-        <div class="button_wrap"><div class="shift_text"><i>e<sup>x</sup></i></div><button type="button" class="vibrate1 function">ln</button></div>
-        <div class="button_wrap"><div class="shift_text"><i>10<sup>x</sup></i></div><button type="button" class="vibrate1 function">log</button></div>
-        <div class="button_wrap"><div class="shift_text"><i>y<sup>x</sup></i></div><button type="button" class="vibrate1 function"><i>y<sup>x</sup></i></button></div>
-        <div class="button_wrap"><div class="shift_text">∛</div><button type="button" class="vibrate1 function">√</button></div>
-        <div class="button_wrap"><div class="shift_text"><i>x<sup>3</sup></i></div><button type="button" class="vibrate1 function"><i>x<sup>2</sup></i></button></div>
-        <div class="button_wrap"><div class="shift_text">%</div><button type="button" class="vibrate1 function">1/<i>x</i></button></div>
-        <div class="button_wrap"><div class="shift_text">STACK</div><button type="button" class="vibrate1 function">DROP</button></div>
-        <div class="button_wrap"><div class="shift_text">LAST<i>x</i></div><button type="button" class="vibrate1 function">X⇄Y</button></div>
-      </div>
-      <div id="numbers">
-        <div class="button_wrap"><div class="shift_text"></div><button type="button" class="vibrate1 number">7</button></div>
-        <div class="button_wrap"><div class="shift_text"></div><button type="button" class="vibrate1 number">8</button></div>
-        <div class="button_wrap"><div class="shift_text">UNDO</div><button type="button" class="vibrate1 number">9</button></div>
-        <div class="button_wrap"><div class="shift_text">MOD</div><button type="button" class="vibrate1 number">EXP</button></div>
-        <div class="button_wrap"><div class="shift_text">CLS</div><button type="button" class="vibrate1 number back">←</button></div>
-        <div class="button_wrap"><div class="shift_text"><i>n!</i></div><button type="button" class="vibrate1 number">4</button></div>
-        <div class="button_wrap"><div class="shift_text"><i>nCr</i></div><button type="button" class="vibrate1 number">5</button></div>
-        <div class="button_wrap"><div class="shift_text"><i>nPr</i></div><button type="button" class="vibrate1 number">6</button></div>
-        <div class="button_wrap"><div class="shift_text">DEC</div><button type="button" class="vibrate1 number">×</button></div>
-        <div class="button_wrap"><div class="shift_text">HEX</div><button type="button" class="vibrate1 number">÷</button></div>
-        <div class="button_wrap"><div class="shift_text"><i>π</i></div><button type="button" class="vibrate1 number">1</button></div>
-        <div class="button_wrap"><div class="shift_text"><i>e</i></div><button type="button" class="vibrate1 number">2</button></div>
-        <div class="button_wrap"><div class="shift_text">Δ%</div><button type="button" class="vibrate1 number">3</button></div>
-        <div class="button_wrap"><div class="shift_text">OCT</div><button type="button" class="vibrate1 number">＋</button></div>
-        <div class="button_wrap"><div class="shift_text">BIN</div><button type="button" class="vibrate1 number">－</button></div>
-        <div class="button_wrap"><div class="shift_text">CONV</div><button type="button" class="vibrate1 number">0</button></div>
-        <div class="button_wrap"><div class="shift_text">CNST</div><button type="button" class="vibrate1 number">±</button></div>
-        <div class="button_wrap"><div class="shift_text"></div><button type="button" class="vibrate1 number">・</button></div>
-        <div class="button_wrap"><div class="shift_text">ANS</div><button type="button" class="vibrate1 enter">ENTER</button></div>
-      </div>
-    </div>
-  </body>
+	<head>
+		<title>rpn-calc</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+		<link href="style.css" rel="stylesheet" type="text/css" media="all" />
+		<link rel="manifest" href="manifest.json">
+		<script>
+			if ('serviceWorker' in navigator) {
+				navigator.serviceWorker.register('sw.js').then(function(registration) {
+					console.log('ServiceWorker registration successful with scope: ', registration.scope);
+				}).catch(function(err) {
+					console.log('ServiceWorker registration failed: ', err);
+				});
+			}
+		</script>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script src="script.js"></script>
+		<link rel="shortcut icon" href="icon.png" type="image/png">
+	</head>
+	<body>
+		<div id="main">
+			<div id="display_wrap">
+				<div id="display">
+						<div id="status">
+								<div id="m"></div>
+								<div id="drg"></div>
+								<div id="stack_count"></div>
+						</div>
+						<div class="stack_wrap"><div class="stack_idx">4:</div><div class="stack" id="stack4"></div></div>
+						<div class="stack_wrap"><div class="stack_idx">Z:</div><div class="stack" id="stack3"></div></div>
+						<div class="stack_wrap"><div class="stack_idx">Y:</div><div class="stack" id="stack2"></div></div>
+						<div class="stack_wrap"><div class="stack_idx">X:</div><div class="stack" id="stack1"></div></div>
+				</div>
+			</div>
+			<div id="functions">
+				<div class="button_wrap"><div class="shift_text"></div><button type="button" id="button_shift" class="function shift">SHIFT</button></div>
+				<div class="button_wrap"><div class="shift_text">DRG▶</div><button type="button" id="button_drg" class="function">DRG</button></div>
+				<div class="button_wrap"><div class="shift_text">TAB</div><button type="button" id="button_fse" class="function">FSE</button></div>
+				<div class="button_wrap"><div class="shift_text">RCL</div><button type="button" id="button_mr" class="function memory">MR</button></div>
+				<div class="button_wrap"><div class="shift_text">STO</div><button type="button" id="button_ms" class="function memory">MS</button></div>
+				<div class="button_wrap"><div class="shift_text">M-</div><button type="button" id="button_mplus" class="function memory">M+</button></div>
+				<div class="button_wrap"><div class="shift_text">hyp<sup>-1</sup></div><button type="button" id="button_hyp" class="function">hyp</button></div>
+				<div class="button_wrap"><div class="shift_text">sin<sup>-1</sup></div><button type="button" id="button_sin" class="function">sin</button></div>
+				<div class="button_wrap"><div class="shift_text">cos<sup>-1</sup></div><button type="button" id="button_cos" class="function">cos</button></div>
+				<div class="button_wrap"><div class="shift_text">tan<sup>-1</sup></div><button type="button" id="button_tan" class="function">tan</button></div>
+				<div class="button_wrap"><div class="shift_text"><i>e<sup>x</sup></i></div><button type="button" id="button_ln" class="function">ln</button></div>
+				<div class="button_wrap"><div class="shift_text"><i>10<sup>x</sup></i></div><button type="button" id="button_log" class="function">log</button></div>
+				<div class="button_wrap"><div class="shift_text"><i>y<sup>x</sup></i></div><button type="button" id="button_yx" class="function"><i>y<sup>x</sup></i></button></div>
+				<div class="button_wrap"><div class="shift_text">∛</div><button type="button" id="button_sqrt" class="function">√</button></div>
+				<div class="button_wrap"><div class="shift_text"><i>x<sup>3</sup></i></div><button type="button" id="button_x2" class="function"><i>x<sup>2</sup></i></button></div>
+				<div class="button_wrap"><div class="shift_text">%</div><button type="button" id="button_1x" class="function">1/<i>x</i></button></div>
+				<div class="button_wrap"><div class="shift_text">STACK</div><button type="button" id="button_drop" class="function dropswap">DROP</button></div>
+				<div class="button_wrap"><div class="shift_text">LAST<i>x</i></div><button type="button" id="button_swap" class="function dropswap">X⇄Y</button></div>
+			</div>
+			<div id="numbers">
+				<div class="button_wrap"><div class="shift_text"></div><button type="button" id="button_7" class="number">7</button></div>
+				<div class="button_wrap"><div class="shift_text"></div><button type="button" id="button_8" class="number">8</button></div>
+				<div class="button_wrap"><div class="shift_text">UNDO</div><button type="button" id="button_9" class="number">9</button></div>
+				<div class="button_wrap"><div class="shift_text">MOD</div><button type="button" id="button_exp" class="number exp">EXP</button></div>
+				<div class="button_wrap"><div class="shift_text">CLS</div><button type="button" id="button_back" class="number back"><i class="material-icons em-1">keyboard_backspace</i></button></div>
+				<div class="button_wrap"><div class="shift_text"><i>n!</i></div><button type="button" id="button_4" class="number">4</button></div>
+				<div class="button_wrap"><div class="shift_text"><i>nCr</i></div><button type="button" id="button_5" class="number">5</button></div>
+				<div class="button_wrap"><div class="shift_text"><i>nPr</i></div><button type="button" id="button_6" class="number">6</button></div>
+				<div class="button_wrap"><div class="shift_text">DEC</div><button type="button" id="button_mult" class="number">×</button></div>
+				<div class="button_wrap"><div class="shift_text">HEX</div><button type="button" id="button_div" class="number">÷</button></div>
+				<div class="button_wrap"><div class="shift_text"><i>π</i></div><button type="button" id="button_1" class="number">1</button></div>
+				<div class="button_wrap"><div class="shift_text"><i>e</i></div><button type="button" id="button_2" class="number">2</button></div>
+				<div class="button_wrap"><div class="shift_text">Δ%</div><button type="button" id="button_3" class="number">3</button></div>
+				<div class="button_wrap"><div class="shift_text">OCT</div><button type="button" id="button_add" class="number">＋</button></div>
+				<div class="button_wrap"><div class="shift_text">BIN</div><button type="button" id="button_sub" class="number">－</button></div>
+				<div class="button_wrap"><div class="shift_text">CONV</div><button type="button" id="button_0" class="number">0</button></div>
+				<div class="button_wrap"><div class="shift_text">CNST</div><button type="button" id="button_sign" class="number">±</button></div>
+				<div class="button_wrap"><div class="shift_text"></div><button type="button" id="button_dot" class="number">・</button></div>
+				<div class="button_wrap"><div class="shift_text">ANS</div><button type="button" id="button_enter" class="enter">ENTER</button></div>
+			</div>
+		</div>
+	</body>
 </html>
