@@ -13,7 +13,7 @@ const callbacks={
 	button_7: ()=>{button_number("7")}, button_7_l: ()=>{},
 	button_8: ()=>{button_number("8")}, button_8_l: ()=>{},
 	button_9: ()=>{button_number("9")}, button_9_l: ()=>{},
-	button_dot: ()=>{button_number(".")}, button_dot_l: ()=>{},
+	button_dot: ()=>{button_dot()}, button_dot_l: ()=>{},
 	button_sign: ()=>{button_sign()}, button_sign_l: ()=>{},
 	button_drop: ()=>{button_drop()}, button_drop_l: ()=>{},
 	button_enter: ()=>{button_enter()}, button_enter_l: ()=>{},
@@ -66,6 +66,23 @@ function button_number(number){
 			break;
 		case 2:
 			stack.unshift(number);
+			stack0_state=1;
+			break;
+	}
+}
+function button_dot(){
+	switch (stack0_state) {
+		case 0:
+			stack[0]="0.";
+			stack0_state=1;
+			break;
+		case 1:
+			if(stack[0].indexOf(".")==-1){
+				stack[0]+=".";
+			}
+			break;
+		case 2:
+			stack.unshift("0.");
 			stack0_state=1;
 			break;
 	}
