@@ -16,6 +16,8 @@ const callbacks={
 	button_9: ()=>{button_number("9")}, button_9_l: ()=>{},
 	button_sign: ()=>{button_sign()}, button_sign_l: ()=>{},
 	button_dot: ()=>{button_dot()}, button_dot_l: ()=>{},
+	button_exp: ()=>{button_exp()}, button_exp_l: ()=>{},
+	button_back: ()=>{button_back()}, button_back_l: ()=>{},
 	button_mul: ()=>{button_mul()}, button_mul_l: ()=>{},
 	button_div: ()=>{button_div()}, button_div_l: ()=>{},
 	button_add: ()=>{button_add()}, button_add_l: ()=>{},
@@ -53,10 +55,34 @@ function render_display(){
 	$("#drg").text(drg_text[drg]);
 	$("#stack_count").text("STACK: "+stack.length);
 	[0,1,2,3].forEach((v,i,a)=>{
-		$("#stack"+(i+1)).text(v<stack.length?stack[v]:"");
+		if(v<stack.length){
+			if(stack[v].indexOf("e+")==-1&&parseFloat(stack[v])>=1e10){
+				stack[v]=parseFloat(stack[v]).toExponential();
+			}
+			if(stack[v].indexOf("e+")==-1&&stack[v].indexOf("e-")==-1){
+				$("#stack"+(i+1)).text(stack[v].slice(0,10));
+				$("#stack"+(i+1)+"_exp").text("");
+				$("#stack"+(i+1)+"_exp_base").text("");
+			}else if(stack[v].indexOf("e+")!=-1){
+				$("#stack"+(i+1)).text(stack[v].slice(0,stack[v].indexOf("e+")).slice(0,10));
+				$("#stack"+(i+1)+"_exp").text(("00"+stack[v].slice(stack[v].indexOf("e+")+2)).slice(-3));
+				$("#stack"+(i+1)+"_exp_base").text("x10");
+			}else if(stack[v].indexOf("e-")!=-1){
+				$("#stack"+(i+1)).text(stack[v].slice(0,stack[v].indexOf("e-")).slice(0,10));
+				$("#stack"+(i+1)+"_exp").text("-"+("00"+stack[v].slice(stack[v].indexOf("e-")+2)).slice(-3));
+				$("#stack"+(i+1)+"_exp_base").text("x10");
+			}
+		}else{
+			$("#stack"+(i+1)).text("");
+			$("#stack"+(i+1)+"_exp").text("");
+			$("#stack"+(i+1)+"_exp_base").text("");
+		}
+		
 	});
 	if(!stack[0]&&stack0_state==0){
 		$("#stack1").text("0");
+		$("#stack1_exp").text("");
+		$("#stack1_exp_base").text("");
 	}
 }
 function button_number(number){
@@ -81,7 +107,7 @@ function button_dot(){
 			stack0_state=1;
 			break;
 		case 1:
-			if(stack[0].indexOf(".")==-1){
+			if(stack[0].indexOf(".")==-1||stack[0].indexOf("e+")==-1){
 				stack[0]+=".";
 			}
 			break;
@@ -95,10 +121,16 @@ function button_sign(){
 	if(!stack[0]){
 		return;
 	}
-	if(stack[0][0]=="-"){
-		stack[0]=stack[0].slice(1);
+	if(stack[0].indexOf("e+")!=-1){
+		stack[0]=stack[0].replace("e+", "e-");
+	}else if(stack[0].indexOf("e-")!=-1){
+		stack[0]=stack[0].replace("e-", "e+");
 	}else{
-		stack[0]="-"+stack[0];
+		if(stack[0][0]=="-"){
+			stack[0]=stack[0].slice(1);
+		}else{
+			stack[0]="-"+stack[0];
+		}
 	}
 }
 function button_drop(){
@@ -113,8 +145,53 @@ function button_enter(){
 	if(stack[0]=="error"){
 		return;
 	}
+	if(!stack[0]){
+		stack[0]="0";
+	}
+	stack[0]=parseFloat(stack[0]).toString();
 	stack.unshift(stack[0]);
 	stack0_state=0;
+}
+function button_exp(){
+	switch (stack0_state) {
+		case 0:
+			stack[0]="1e+0";
+			stack0_state=1;
+			break;
+		case 1:
+			if(stack[0].indexOf("e+")==-1&&stack[0].indexOf("e-")==-1){
+				stack[0]+="e+0";
+			}
+			break;
+		case 2:
+			stack.unshift("1e+0");
+			stack0_state=1;
+			break;
+	}
+}
+function button_back(){
+	switch (stack0_state) {
+		case 0:
+			stack[0]="0";
+			stack0_state=1;
+			break;
+		case 1:
+			if(stack[0].slice(-3)=="e+0"||stack[0].slice(-3)=="e-0"){
+				stack[0]=stack[0].slice(0,-3);
+			}else if(stack[0].slice(-3,-1)=="e+"||stack[0].slice(-3,-1)=="e-"){
+				stack[0]=stack[0].slice(0,-1)+"0";
+			}else{
+				stack[0]=stack[0].slice(0,-1);
+			}
+			if(!stack[0]){
+				stack0_state=0;
+			}
+			break;
+		case 2:
+			stack[0]="0";
+			stack0_state=1;
+			break;
+	}
 }
 function button_mul(){
 	stack[1]=(parseFloat(stack[1])*parseFloat(stack[0])).toString();

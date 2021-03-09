@@ -127,12 +127,33 @@ div#stack_count {
 div.stack_wrap {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
-	margin: 1vw 8vw 1vw 1vw;
+	justify-content: stretch;
+	margin: .5vw;
+	height: 5vh;
+}
+div.stack_idx {
+	font-size: .8em;
 }
 div.stack {
 	font-family: DSEG7Classic-BoldItalic;
-	/*transform: scale(0.85, 1);*/
+	font-size: 1em;
+	flex-grow: 1;
+	text-align: right;
+}
+div.stack_exp_wrap {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 15vw;
+	margin: 0 1vw;
+}
+div.stack_exp {
+	font-family: DSEG7Classic-BoldItalic;
+	font-size: .5em;
+	text-align: right;
+}
+div.stack_exp_base {
+	font-size: .5em;
 }
 
 div.shift_text {
