@@ -23,6 +23,11 @@ const callbacks={
 	button_add: ()=>{button_add()}, button_add_l: ()=>{},
 	button_sub: ()=>{button_sub()}, button_sub_l: ()=>{},
 	button_enter: ()=>{button_enter()}, button_enter_l: ()=>{},
+	button_sin: ()=>{math_function(Math.sin, true, false)}, button_sin_l: ()=>{math_function(Math.asin, false, true)},
+	button_cos: ()=>{math_function(Math.cos, true, false)}, button_cos_l: ()=>{math_function(Math.acos, false, true)},
+	button_tan: ()=>{math_function(Math.tan, true, false)}, button_tan_l: ()=>{math_function(Math.atan, false, true)},
+	button_ln:  ()=>{math_function(Math.log, false, false)}, button_ln_l: ()=>{math_function(Math.exp, false, false)},
+	button_log: ()=>{math_function(Math.log10, false, false)}, button_log_l: ()=>{math_function((x)=>Math.pow(10,x), false, false)},
 }
 window.onload = ()=>{
 	$('button').each((i,e)=>{
@@ -60,15 +65,15 @@ function render_display(){
 				stack[v]=parseFloat(stack[v]).toExponential();
 			}
 			if(stack[v].indexOf("e+")==-1&&stack[v].indexOf("e-")==-1){
-				$("#stack"+(i+1)).text(stack[v].slice(0,10));
+				$("#stack"+(i+1)).text(stack[v].slice(0,stack[v].indexOf(".")==-1?10:11));
 				$("#stack"+(i+1)+"_exp").text("");
 				$("#stack"+(i+1)+"_exp_base").text("");
 			}else if(stack[v].indexOf("e+")!=-1){
-				$("#stack"+(i+1)).text(stack[v].slice(0,stack[v].indexOf("e+")).slice(0,10));
+				$("#stack"+(i+1)).text(stack[v].slice(0,stack[v].indexOf("e+")).slice(0,stack[v].indexOf(".")==-1?10:11));
 				$("#stack"+(i+1)+"_exp").text(("00"+stack[v].slice(stack[v].indexOf("e+")+2)).slice(-3));
 				$("#stack"+(i+1)+"_exp_base").text("x10");
 			}else if(stack[v].indexOf("e-")!=-1){
-				$("#stack"+(i+1)).text(stack[v].slice(0,stack[v].indexOf("e-")).slice(0,10));
+				$("#stack"+(i+1)).text(stack[v].slice(0,stack[v].indexOf("e-")).slice(0,stack[v].indexOf(".")==-1?10:11));
 				$("#stack"+(i+1)+"_exp").text("-"+("00"+stack[v].slice(stack[v].indexOf("e-")+2)).slice(-3));
 				$("#stack"+(i+1)+"_exp_base").text("x10");
 			}
@@ -107,7 +112,7 @@ function button_dot(){
 			stack0_state=1;
 			break;
 		case 1:
-			if(stack[0].indexOf(".")==-1||stack[0].indexOf("e+")==-1){
+			if(stack[0].indexOf(".")==-1&&stack[0].indexOf("e+")==-1&&stack[0].indexOf("e-")==-1){
 				stack[0]+=".";
 			}
 			break;
@@ -201,12 +206,7 @@ function button_mul(){
 function button_div(){
 	stack[1]=(parseFloat(stack[1])/parseFloat(stack[0])).toString();
 	stack.shift();
-	if(!isFinite(stack[0])){
-		stack[0]="error";
-		stack0_state=0;
-	}else{
-		stack0_state=2;
-	}
+	stack0_state=2;
 }
 function button_add(){
 	stack[1]=(parseFloat(stack[1])+parseFloat(stack[0])).toString();
@@ -216,5 +216,35 @@ function button_add(){
 function button_sub(){
 	stack[1]=(parseFloat(stack[1])-parseFloat(stack[0])).toString();
 	stack.shift();
+	stack0_state=2;
+}
+function math_function(func, in_drg, out_drg){
+	let x=parseFloat(stack[0]);
+	if(in_drg){
+		switch (drg) {
+			case 0:	// DEG
+				x=x*Math.PI/180;
+				break;
+			case 1:	// RAD
+				break;
+			case 2:	// GRAD
+				x=x*Math.PI/200;
+				break;
+		}
+	}
+	let y=func(x);
+	if(out_drg){
+		switch (drg) {
+			case 0:	// DEG
+				y=y*180/Math.PI;
+				break;
+			case 1:	// RAD
+				break;
+			case 2:	// GRAD
+				y=y*200/Math.PI;
+				break;
+		}
+	}
+	stack[0]=y.toString();
 	stack0_state=2;
 }
