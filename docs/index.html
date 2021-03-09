@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
 		<link href="style.css" rel="stylesheet" type="text/css" media="all" />
-		<link rel="manifest" href="manifest.json">
+		<link href="manifest.json" rel="manifest">
 		<script>
 			if ('serviceWorker' in navigator) {
 				navigator.serviceWorker.register('sw.js').then(function(registration) {
@@ -24,11 +24,7 @@
 		<div id="main">
 			<div id="display_wrap">
 				<div id="display">
-						<div id="status">
-								<div id="m"></div>
-								<div id="drg"></div>
-								<div id="stack_count"></div>
-						</div>
+						<div id="status"><div id="m"></div><div id="drg"></div><div id="stack_count"></div></div>
 						<div class="stack_wrap"><div class="stack_idx">4:</div><div class="stack" id="stack4"></div><div class="stack_exp_wrap"><div class="stack_exp" id="stack4_exp"></div><div class="stack_exp_base" id="stack4_exp_base"></div></div></div>
 						<div class="stack_wrap"><div class="stack_idx">Z:</div><div class="stack" id="stack3"></div><div class="stack_exp_wrap"><div class="stack_exp" id="stack3_exp"></div><div class="stack_exp_base" id="stack3_exp_base"></div></div></div>
 						<div class="stack_wrap"><div class="stack_idx">Y:</div><div class="stack" id="stack2"></div><div class="stack_exp_wrap"><div class="stack_exp" id="stack2_exp"></div><div class="stack_exp_base" id="stack2_exp_base"></div></div></div>
