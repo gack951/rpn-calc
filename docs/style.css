@@ -13,6 +13,8 @@ body {
 	line-height: 1.2;
 	background-color: #7f7f7f;
 	font-family: sans-serif;
+	user-select: none;
+	-webkit-user-select: none;
 }
 
 button {
@@ -33,8 +35,6 @@ button {
 	color: #ffffff;
 	font-size: 1em;
 	transition: background 100ms;
-	user-select: none;
-	-webkit-user-select: none;
 }
 button.hover {
 	background: #91a2b8;
@@ -163,6 +163,4 @@ div.shift_text {
 	align-items: flex-end;
 	height: 3vh;
 	font-size: .5em;
-	user-select: none;
-	-webkit-user-select: none;
 }

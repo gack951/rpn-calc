@@ -51,6 +51,10 @@ window.onload = ()=>{
 			$(ee.target).removeClass("hover");
 		});
 	});
+	$("div#display").on('touchstart', (e)=>{
+		copy_to_clipboard(0);
+		flash_stack(0,"copied");
+	})
 	render_display();
 };
 function render_display(){
@@ -83,6 +87,13 @@ function render_display(){
 			$("#stack"+(v+1)+"_exp_base").text("");
 		}
 	});
+}
+function flash_stack(id, str){
+	let tmp=$("#stack"+(id+1)).text();
+	$("#stack"+(id+1)).text(str);
+	setTimeout(()=>{
+		$("#stack"+(id+1)).text(tmp);
+	}, 500);
 }
 function button_number(number){
 	switch (stack0_state) {
@@ -241,4 +252,7 @@ function math_function(func, in_drg, out_drg){
 	}
 	stack[0]=y.toString();
 	stack0_state=2;
+}
+function copy_to_clipboard(id){
+	navigator.clipboard.writeText(stack[id]);
 }
