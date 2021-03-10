@@ -80,10 +80,6 @@ div#main {
 	flex-direction: column;
 	justify-content: stretch;
 }
-div#display_wrap {
-	margin: 0vw 0vw 2vw 0vw;
-	flex-grow: 1;
-}
 div#display {
 	display: flex;
 	height: 100%;
@@ -92,6 +88,7 @@ div#display {
 	color: black;
 	flex-direction: column;
 	justify-content: space-between;
+	flex-grow: 1;
 }
 div#functions {
 	margin: 0vw;
