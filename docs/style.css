@@ -161,4 +161,5 @@ div.shift_text {
 	align-items: flex-end;
 	height: 3vh;
 	font-size: .5em;
+	user-select: none;
 }
