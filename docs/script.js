@@ -156,6 +156,7 @@ function button_swap(){
 	let tmp=stack[0];
 	stack[0]=stack[1];
 	stack[1]=tmp;
+	stack0_state=2;
 }
 function button_enter(){
 	if(stack[0]=="error"){
@@ -200,6 +201,7 @@ function button_back(){
 				stack[0]=stack[0].slice(0,-1);
 			}
 			if(!stack[0]){
+				stack[0]="0";
 				stack0_state=0;
 			}
 			break;
