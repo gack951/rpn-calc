@@ -91,6 +91,21 @@ div#display {
 	justify-content: space-between;
 	flex-grow: 1;
 }
+div#status {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	height: 2.5vh;
+	font-size: .5em;
+	margin: 1vw;
+}
+div#m, div#drg{
+	width: 30%;
+}
+div#stack_count {
+	width: 35%;
+	text-align: right;
+}
 div#functions {
 	margin: 0vw;
 	display: flex;
@@ -107,20 +122,6 @@ div.button_wrap {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-}
-div#status {
-	display: flex;
-	flex-direction: row;
-	width: 100%;
-	font-size: .5em;
-	margin: 1vw;
-}
-div#m, div#drg{
-	width: 30%;
-}
-div#stack_count {
-	width: 35%;
-	text-align: right;
 }
 div.stack_wrap {
 	display: flex;

@@ -65,30 +65,24 @@ function render_display(){
 				stack[v]=parseFloat(stack[v]).toExponential();
 			}
 			if(stack[v].indexOf("e+")==-1&&stack[v].indexOf("e-")==-1){
-				$("#stack"+(i+1)).text(stack[v].slice(0,stack[v].indexOf(".")==-1?10:11));
-				$("#stack"+(i+1)+"_exp").text("");
-				$("#stack"+(i+1)+"_exp_base").text("");
+				$("#stack"+(v+1)).text(stack[v].slice(0,stack[v].indexOf(".")==-1?10:11));
+				$("#stack"+(v+1)+"_exp").text("");
+				$("#stack"+(v+1)+"_exp_base").text("");
 			}else if(stack[v].indexOf("e+")!=-1){
-				$("#stack"+(i+1)).text(stack[v].slice(0,stack[v].indexOf("e+")).slice(0,stack[v].indexOf(".")==-1?10:11));
-				$("#stack"+(i+1)+"_exp").text(("00"+stack[v].slice(stack[v].indexOf("e+")+2)).slice(-3));
-				$("#stack"+(i+1)+"_exp_base").text("x10");
+				$("#stack"+(v+1)).text(stack[v].slice(0,stack[v].indexOf("e+")).slice(0,stack[v].indexOf(".")==-1?10:11));
+				$("#stack"+(v+1)+"_exp").text(("00"+stack[v].slice(stack[v].indexOf("e+")+2)).slice(-3));
+				$("#stack"+(v+1)+"_exp_base").text("x10");
 			}else if(stack[v].indexOf("e-")!=-1){
-				$("#stack"+(i+1)).text(stack[v].slice(0,stack[v].indexOf("e-")).slice(0,stack[v].indexOf(".")==-1?10:11));
-				$("#stack"+(i+1)+"_exp").text("-"+("00"+stack[v].slice(stack[v].indexOf("e-")+2)).slice(-3));
-				$("#stack"+(i+1)+"_exp_base").text("x10");
+				$("#stack"+(v+1)).text(stack[v].slice(0,stack[v].indexOf("e-")).slice(0,stack[v].indexOf(".")==-1?10:11));
+				$("#stack"+(v+1)+"_exp").text("-"+("00"+stack[v].slice(stack[v].indexOf("e-")+2)).slice(-3));
+				$("#stack"+(v+1)+"_exp_base").text("x10");
 			}
 		}else{
-			$("#stack"+(i+1)).text("");
-			$("#stack"+(i+1)+"_exp").text("");
-			$("#stack"+(i+1)+"_exp_base").text("");
+			$("#stack"+(v+1)).text(v==0?"0":"");
+			$("#stack"+(v+1)+"_exp").text("");
+			$("#stack"+(v+1)+"_exp_base").text("");
 		}
-		
 	});
-	if(!stack[0]&&stack0_state==0){
-		$("#stack1").text("0");
-		$("#stack1_exp").text("");
-		$("#stack1_exp_base").text("");
-	}
 }
 function button_number(number){
 	switch (stack0_state) {
