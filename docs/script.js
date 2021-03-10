@@ -4,6 +4,7 @@ const drg_text=["DEG", "RAD", "GRAD"];
 const callbacks={
 	button_drg: ()=>{drg=(drg+1)%3}, button_drg_l: ()=>{},
 	button_drop: ()=>{button_drop()}, button_drop_l: ()=>{},
+	button_swap: ()=>{button_swap()}, button_swap_l: ()=>{},
 	button_0: ()=>{button_number("0")}, button_0_l: ()=>{},
 	button_1: ()=>{button_number("1")}, button_1_l: ()=>{},
 	button_2: ()=>{button_number("2")}, button_2_l: ()=>{},
@@ -18,10 +19,10 @@ const callbacks={
 	button_dot: ()=>{button_dot()}, button_dot_l: ()=>{},
 	button_exp: ()=>{button_exp()}, button_exp_l: ()=>{},
 	button_back: ()=>{button_back()}, button_back_l: ()=>{},
-	button_mul: ()=>{button_mul()}, button_mul_l: ()=>{},
-	button_div: ()=>{button_div()}, button_div_l: ()=>{},
-	button_add: ()=>{button_add()}, button_add_l: ()=>{},
-	button_sub: ()=>{button_sub()}, button_sub_l: ()=>{},
+	button_mul: ()=>{arithmetic((y,x)=>y*x)}, button_mul_l: ()=>{},
+	button_div: ()=>{arithmetic((y,x)=>y/x)}, button_div_l: ()=>{},
+	button_add: ()=>{arithmetic((y,x)=>y+x)}, button_add_l: ()=>{},
+	button_sub: ()=>{arithmetic((y,x)=>y-x)}, button_sub_l: ()=>{},
 	button_enter: ()=>{button_enter()}, button_enter_l: ()=>{},
 	button_sin: ()=>{math_function(Math.sin, true, false)}, button_sin_l: ()=>{math_function(Math.asin, false, true)},
 	button_cos: ()=>{math_function(Math.cos, true, false)}, button_cos_l: ()=>{math_function(Math.acos, false, true)},
@@ -151,6 +152,11 @@ function button_drop(){
 		stack0_state=2;
 	}
 }
+function button_swap(){
+	let tmp=stack[0];
+	stack[0]=stack[1];
+	stack[1]=tmp;
+}
 function button_enter(){
 	if(stack[0]=="error"){
 		return;
@@ -203,23 +209,8 @@ function button_back(){
 			break;
 	}
 }
-function button_mul(){
-	stack[1]=(parseFloat(stack[1])*parseFloat(stack[0])).toString();
-	stack.shift();
-	stack0_state=2;
-}
-function button_div(){
-	stack[1]=(parseFloat(stack[1])/parseFloat(stack[0])).toString();
-	stack.shift();
-	stack0_state=2;
-}
-function button_add(){
-	stack[1]=(parseFloat(stack[1])+parseFloat(stack[0])).toString();
-	stack.shift();
-	stack0_state=2;
-}
-function button_sub(){
-	stack[1]=(parseFloat(stack[1])-parseFloat(stack[0])).toString();
+function arithmetic(f){
+	stack[1]=f(parseFloat(stack[1]),parseFloat(stack[0])).toString();
 	stack.shift();
 	stack0_state=2;
 }
