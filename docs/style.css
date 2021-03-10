@@ -33,6 +33,7 @@ button {
 	color: #ffffff;
 	font-size: 1em;
 	transition: background 100ms;
+	user-select: none;
 }
 button.hover {
 	background: #91a2b8;
