@@ -3,6 +3,15 @@ let stack0_state=0; /* 0: blank, 1: typing, 2: result */
 const drg_text=["DEG", "RAD", "GRAD"];
 const callbacks={
 	button_drg: ()=>{change_drg(false)}, button_drg_l: ()=>{change_drg(true)},
+	button_sin: ()=>{trigon_function(Math.sin, true, false)}, button_sin_l: ()=>{trigon_function(Math.asin, false, true)},
+	button_cos: ()=>{trigon_function(Math.cos, true, false)}, button_cos_l: ()=>{trigon_function(Math.acos, false, true)},
+	button_tan: ()=>{trigon_function(Math.tan, true, false)}, button_tan_l: ()=>{trigon_function(Math.atan, false, true)},
+	button_ln:  ()=>{binary_operation((y,x)=>Math.log(x), false)}, button_ln_l: ()=>{binary_operation((y,x)=>Math.exp(x), false)},
+	button_log: ()=>{binary_operation((y,x)=>Math.log10(x), false)}, button_log_l: ()=>{binary_operation((y,x)=>Math.pow(10,x), false)},
+	button_yx: ()=>{binary_operation((y,x)=>y**x)}, button_yx_l: ()=>{binary_operation((y,x)=>y**(1/x))},
+	button_sqrt: ()=>{binary_operation((y,x)=>x**(1/2), false)}, button_sqrt_l: ()=>{binary_operation((y,x)=>x**(1/3), false)},
+	button_x2: ()=>{binary_operation((y,x)=>x**2, false)}, button_x2_l: ()=>{binary_operation((y,x)=>x**3, false)},
+	button_1x: ()=>{binary_operation((y,x)=>1/x, false)}, button_1x_l: ()=>{binary_operation((y,x)=>y*(x/100), false)},
 	button_drop: ()=>{button_drop()}, button_drop_l: ()=>{},
 	button_swap: ()=>{button_swap()}, button_swap_l: ()=>{},
 	button_0: ()=>{button_number("0")}, button_0_l: ()=>{},
@@ -19,16 +28,11 @@ const callbacks={
 	button_dot: ()=>{button_dot()}, button_dot_l: ()=>{},
 	button_exp: ()=>{button_exp()}, button_exp_l: ()=>{},
 	button_back: ()=>{button_back()}, button_back_l: ()=>{},
-	button_mul: ()=>{arithmetic((y,x)=>y*x)}, button_mul_l: ()=>{},
-	button_div: ()=>{arithmetic((y,x)=>y/x)}, button_div_l: ()=>{},
-	button_add: ()=>{arithmetic((y,x)=>y+x)}, button_add_l: ()=>{},
-	button_sub: ()=>{arithmetic((y,x)=>y-x)}, button_sub_l: ()=>{},
+	button_mul: ()=>{binary_operation((y,x)=>y*x)}, button_mul_l: ()=>{},
+	button_div: ()=>{binary_operation((y,x)=>y/x)}, button_div_l: ()=>{},
+	button_add: ()=>{binary_operation((y,x)=>y+x)}, button_add_l: ()=>{},
+	button_sub: ()=>{binary_operation((y,x)=>y-x)}, button_sub_l: ()=>{},
 	button_enter: ()=>{button_enter()}, button_enter_l: ()=>{},
-	button_sin: ()=>{math_function(Math.sin, true, false)}, button_sin_l: ()=>{math_function(Math.asin, false, true)},
-	button_cos: ()=>{math_function(Math.cos, true, false)}, button_cos_l: ()=>{math_function(Math.acos, false, true)},
-	button_tan: ()=>{math_function(Math.tan, true, false)}, button_tan_l: ()=>{math_function(Math.atan, false, true)},
-	button_ln:  ()=>{math_function(Math.log, false, false)}, button_ln_l: ()=>{math_function(Math.exp, false, false)},
-	button_log: ()=>{math_function(Math.log10, false, false)}, button_log_l: ()=>{math_function((x)=>Math.pow(10,x), false, false)},
 }
 window.onload = ()=>{
 	$('button').each((i,e)=>{
@@ -38,18 +42,18 @@ window.onload = ()=>{
 			timeout = setTimeout(()=>{
 				longtouch = true;
 				navigator.vibrate(50);
-				callbacks[ee.target.id+"_l"]();
+				callbacks[ee.currentTarget.id+"_l"]();
 				render_display();
 			}, 300);
-			$(ee.target).addClass("hover");
+			$(ee.currentTarget).addClass("hover");
 		}).bind('touchend', (ee)=>{
 			clearTimeout(timeout);
 			if (!longtouch) {
-				callbacks[ee.target.id]();
+				callbacks[ee.currentTarget.id]();
 				render_display();
 			}
 			longtouch = false;
-			$(ee.target).removeClass("hover");
+			$(ee.currentTarget).removeClass("hover");
 		});
 	});
 	$("div#display").on('touchstart', (e)=>{
@@ -211,12 +215,15 @@ function button_back(){
 			break;
 	}
 }
-function arithmetic(f){
-	stack[1]=f(parseFloat(stack[1]),parseFloat(stack[0])).toString();
-	stack.shift();
+function binary_operation(f, shift=true){
+	let y=parseFloat(stack[1]),x=parseFloat(stack[0]);
+	if(shift){
+		stack.shift();
+	}
+	stack[0]=f(y,x).toString();
 	stack0_state=2;
 }
-function math_function(func, in_drg, out_drg){
+function trigon_function(func, in_drg, out_drg){
 	let x=parseFloat(stack[0]);
 	if(in_drg){
 		switch (drg) {
@@ -253,13 +260,13 @@ function change_drg(convert_stack0){
 	if(convert_stack0){
 		let x=parseFloat(stack[0]);
 		switch (drg) {
-			case 0:	// DEG
+			case 0:	// DEG→RAD
 				stack[0]=(x*Math.PI/180).toString();
 				break;
-			case 1:	// RAD
+			case 1:	// RAD→GRAD
 				stack[0]=(x*200/Math.PI).toString();
 				break;
-			case 2:	// GRAD
+			case 2:	// GRAD→DEG
 				stack[0]=(x*180/200).toString();
 				break;
 		}
