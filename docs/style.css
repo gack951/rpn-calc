@@ -11,7 +11,7 @@ body {
 	margin: 0px;
 	font-size: 4vh;
 	line-height: 1.2;
-	background-color: #7f7f7f;
+	background-color: #505050;
 	font-family: sans-serif;
 	user-select: none;
 	-webkit-user-select: none;
@@ -62,17 +62,17 @@ button.enter {
 	height: 7vh;
 }
 button.shift {
-	background-color: rgb(219, 186, 0);
+	background-color: rgb(255, 255, 0);
 	color: black;
 }
 button.back {
-	background-color: rgb(214, 25, 25);
+	background-color: rgb(255, 24, 24);
 }
 button.memory {
 	color: rgb(84, 100, 238);
 }
 button.dropswap {
-	color: rgb(214, 25, 25);
+	color: rgb(255, 24, 24);
 }
 
 div#main {
@@ -164,7 +164,7 @@ div.stack_exp_base {
 
 div.shift_text {
 	display: flex;
-	color: yellow;
+	color: rgb(255, 255, 0);
 	justify-content: center;
 	align-items: flex-end;
 	height: 3vh;
