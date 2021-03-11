@@ -2,6 +2,7 @@
 @font-face {
 	font-family: 'DSEG7Classic-BoldItalic';
 	src: url(DSEG7Classic-BoldItalic.ttf);
+	font-display: swap;
 }
 
 html {
@@ -69,10 +70,10 @@ button.back {
 	background-color: rgb(255, 24, 24);
 }
 button.memory {
-	color: rgb(84, 100, 238);
+	color: rgb(71, 129, 255);
 }
 button.dropswap {
-	color: rgb(255, 24, 24);
+	color: rgb(255, 60, 93);
 }
 
 div#main {
