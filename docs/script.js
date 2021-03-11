@@ -17,10 +17,10 @@ const callbacks={
 	button_0: ()=>{button_number("0")}, button_0_l: ()=>{},
 	button_1: ()=>{button_number("1")}, button_1_l: ()=>{input_const(Math.PI)},
 	button_2: ()=>{button_number("2")}, button_2_l: ()=>{input_const(Math.E)},
-	button_3: ()=>{button_number("3")}, button_3_l: ()=>{},
-	button_4: ()=>{button_number("4")}, button_4_l: ()=>{},
-	button_5: ()=>{button_number("5")}, button_5_l: ()=>{},
-	button_6: ()=>{button_number("6")}, button_6_l: ()=>{},
+	button_3: ()=>{button_number("3")}, button_3_l: ()=>{binary_operation((y,x)=>(x-y)/y*100)},
+	button_4: ()=>{button_number("4")}, button_4_l: ()=>{binary_operation((y,x)=>factorial(x), false)},
+	button_5: ()=>{button_number("5")}, button_5_l: ()=>{binary_operation((y,x)=>factorial(y)/factorial(y-x)/factorial(x))},
+	button_6: ()=>{button_number("6")}, button_6_l: ()=>{binary_operation((y,x)=>factorial(y)/factorial(y-x))},
 	button_7: ()=>{button_number("7")}, button_7_l: ()=>{},
 	button_8: ()=>{button_number("8")}, button_8_l: ()=>{},
 	button_9: ()=>{button_number("9")}, button_9_l: ()=>{},
@@ -285,4 +285,11 @@ function input_const(value){
 			stack0_state=2;
 			break;
 	}
+}
+function factorial(n) {
+	let ret = 1;
+	for(let i = 1; i <= n; i++){
+		ret *= i;
+	}
+	return ret;
 }
