@@ -2,12 +2,12 @@ let stack=[], memory=[0,0,0,0,0,0,0,0,0,0], drg=0, radix=10;
 let stack0_state=0; /* 0: blank, 1: typing, 2: result */
 const drg_text=["DEG", "RAD", "GRAD"];
 const callbacks={
-	button_drg: ()=>{drg=(drg+1)%3}, button_drg_l: ()=>{},
+	button_drg: ()=>{change_drg(false)}, button_drg_l: ()=>{change_drg(true)},
 	button_drop: ()=>{button_drop()}, button_drop_l: ()=>{},
 	button_swap: ()=>{button_swap()}, button_swap_l: ()=>{},
 	button_0: ()=>{button_number("0")}, button_0_l: ()=>{},
-	button_1: ()=>{button_number("1")}, button_1_l: ()=>{},
-	button_2: ()=>{button_number("2")}, button_2_l: ()=>{},
+	button_1: ()=>{button_number("1")}, button_1_l: ()=>{input_const(Math.PI)},
+	button_2: ()=>{button_number("2")}, button_2_l: ()=>{input_const(Math.E)},
 	button_3: ()=>{button_number("3")}, button_3_l: ()=>{},
 	button_4: ()=>{button_number("4")}, button_4_l: ()=>{},
 	button_5: ()=>{button_number("5")}, button_5_l: ()=>{},
@@ -190,7 +190,7 @@ function button_back(){
 	switch (stack0_state) {
 		case 0:
 			stack[0]="0";
-			stack0_state=1;
+			stack0_state=0;
 			break;
 		case 1:
 			if(stack[0].slice(-3)=="e+0"||stack[0].slice(-3)=="e-0"){
@@ -207,7 +207,7 @@ function button_back(){
 			break;
 		case 2:
 			stack[0]="0";
-			stack0_state=1;
+			stack0_state=0;
 			break;
 	}
 }
@@ -248,4 +248,34 @@ function math_function(func, in_drg, out_drg){
 }
 function copy_to_clipboard(id){
 	navigator.clipboard.writeText(stack[id]);
+}
+function change_drg(convert_stack0){
+	if(convert_stack0){
+		let x=parseFloat(stack[0]);
+		switch (drg) {
+			case 0:	// DEG
+				stack[0]=(x*Math.PI/180).toString();
+				break;
+			case 1:	// RAD
+				stack[0]=(x*200/Math.PI).toString();
+				break;
+			case 2:	// GRAD
+				stack[0]=(x*180/200).toString();
+				break;
+		}
+	}
+	drg=(drg+1)%3;
+}
+function input_const(value){
+	switch (stack0_state) {
+		case 0:
+			stack[0]=value.toString();
+			stack0_state=2;
+			break;
+		case 1:
+		case 2:
+			stack.unshift(value.toString());
+			stack0_state=2;
+			break;
+	}
 }
