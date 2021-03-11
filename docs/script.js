@@ -1,8 +1,9 @@
-let stack=[], memory=[0,0,0,0,0,0,0,0,0,0], drg=0, radix=10;
+let stack=[], memory=[0,0,0,0,0,0,0,0,0,0], drg=0, radix=10, shift=0;
 let stack0_state=0; /* 0: blank, 1: typing, 2: result */
 let timeout, longtouch;
 const drg_text=["DEG", "RAD", "GRAD"];
 const callbacks={
+	button_shift: ()=>{shift=1}, button_shift_l: ()=>{shift=0},
 	button_drg: ()=>{change_drg(false)}, button_drg_l: ()=>{change_drg(true)},
 	button_sin: ()=>{trigon_function(Math.sin, true, false)}, button_sin_l: ()=>{trigon_function(Math.asin, false, true)},
 	button_cos: ()=>{trigon_function(Math.cos, true, false)}, button_cos_l: ()=>{trigon_function(Math.acos, false, true)},
@@ -40,12 +41,19 @@ window.onload = ()=>{
 		'touchstart': (ee)=>{
 			longtouch = false;
 			clearTimeout(timeout);
-			timeout = setTimeout(()=>{
+			if(shift){
 				longtouch = true;
+				shift=0;
 				callbacks[ee.currentTarget.id+"_l"]();
 				render_display();
-				navigator.vibrate(50);
-			}, 300);
+			}else{
+				timeout = setTimeout(()=>{
+					longtouch = true;
+					callbacks[ee.currentTarget.id+"_l"]();
+					render_display();
+					navigator.vibrate(50);
+				}, 300);
+			}
 			$(ee.currentTarget).addClass("hover");
 			navigator.vibrate(50);
 		},
@@ -65,8 +73,15 @@ window.onload = ()=>{
 	render_display();
 };
 function render_display(){
-	if(memory[0]!=0){
+	if(memory[0]){
 		$("#m").text("M");
+	}else{
+		$("#m").text("");
+	}
+	if(shift){
+		$("#shift").text("SHIFT");
+	}else{
+		$("#shift").text("");
 	}
 	$("#drg").text(drg_text[drg]);
 	$("#stack_count").text("STACK: "+stack.length);

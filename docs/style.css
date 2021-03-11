@@ -100,7 +100,13 @@ div#status {
 	font-size: .5em;
 	margin: 1vw;
 }
-div#m, div#drg{
+div#m {
+	width: 7%;
+}
+div#shift {
+	width: 23%;
+}
+div#drg{
 	width: 30%;
 }
 div#stack_count {
