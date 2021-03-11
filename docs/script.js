@@ -42,9 +42,9 @@ window.onload = ()=>{
 			clearTimeout(timeout);
 			timeout = setTimeout(()=>{
 				longtouch = true;
-				navigator.vibrate(50);
 				callbacks[ee.currentTarget.id+"_l"]();
 				render_display();
+				navigator.vibrate(50);
 			}, 300);
 			$(ee.currentTarget).addClass("hover");
 			navigator.vibrate(50);
