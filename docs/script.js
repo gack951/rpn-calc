@@ -1,5 +1,6 @@
 let stack=[], memory=[0,0,0,0,0,0,0,0,0,0], drg=0, radix=10;
 let stack0_state=0; /* 0: blank, 1: typing, 2: result */
+let timeout, longtouch;
 const drg_text=["DEG", "RAD", "GRAD"];
 const callbacks={
 	button_drg: ()=>{change_drg(false)}, button_drg_l: ()=>{change_drg(true)},
@@ -35,10 +36,10 @@ const callbacks={
 	button_enter: ()=>{button_enter()}, button_enter_l: ()=>{},
 }
 window.onload = ()=>{
-	$('button').each((i,e)=>{
-		var timeout, longtouch;
-		$(e).bind('touchstart', (ee)=>{
+	$('button').on({
+		'touchstart': (ee)=>{
 			navigator.vibrate(50);
+			clearTimeout(timeout);
 			timeout = setTimeout(()=>{
 				longtouch = true;
 				navigator.vibrate(50);
@@ -46,7 +47,8 @@ window.onload = ()=>{
 				render_display();
 			}, 300);
 			$(ee.currentTarget).addClass("hover");
-		}).bind('touchend', (ee)=>{
+		},
+		'touchend': (ee)=>{
 			clearTimeout(timeout);
 			if (!longtouch) {
 				callbacks[ee.currentTarget.id]();
@@ -54,7 +56,7 @@ window.onload = ()=>{
 			}
 			longtouch = false;
 			$(ee.currentTarget).removeClass("hover");
-		});
+		}
 	});
 	$("div#display").on('touchstart', (e)=>{
 		copy_to_clipboard(0);
