@@ -38,7 +38,7 @@ const callbacks={
 window.onload = ()=>{
 	$('button').on({
 		'touchstart': (ee)=>{
-			navigator.vibrate(50);
+			longtouch = false;
 			clearTimeout(timeout);
 			timeout = setTimeout(()=>{
 				longtouch = true;
@@ -47,6 +47,7 @@ window.onload = ()=>{
 				render_display();
 			}, 300);
 			$(ee.currentTarget).addClass("hover");
+			navigator.vibrate(50);
 		},
 		'touchend': (ee)=>{
 			clearTimeout(timeout);
@@ -54,7 +55,6 @@ window.onload = ()=>{
 				callbacks[ee.currentTarget.id]();
 				render_display();
 			}
-			longtouch = false;
 			$(ee.currentTarget).removeClass("hover");
 		}
 	});
