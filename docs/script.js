@@ -1,4 +1,4 @@
-let stack=[], memory=[0,0,0,0,0,0,0,0,0,0], drg=0, radix=10, shift=0;
+let stack=[], stack_history=[], history_max=10, memory=[0,0,0,0,0,0,0,0,0,0], drg=0, radix=10, shift=0;
 let stack0_state=0; /* 0: blank, 1: typing, 2: result */
 let timeout, longtouch;
 const drg_text=["DEG", "RAD", "GRAD"];
@@ -25,7 +25,7 @@ const callbacks={
 	button_6: ()=>{button_number("6")}, button_6_l: ()=>{binary_operation((y,x)=>factorial(y)/factorial(y-x))},
 	button_7: ()=>{button_number("7")}, button_7_l: ()=>{},
 	button_8: ()=>{button_number("8")}, button_8_l: ()=>{},
-	button_9: ()=>{button_number("9")}, button_9_l: ()=>{},
+	button_9: ()=>{button_number("9")}, button_9_l: ()=>{undo()},
 	button_sign: ()=>{button_sign()}, button_sign_l: ()=>{},
 	button_dot: ()=>{button_dot()}, button_dot_l: ()=>{},
 	button_exp: ()=>{button_exp()}, button_exp_l: ()=>{},
@@ -166,6 +166,7 @@ function button_sign(){
 	}
 }
 function button_drop(){
+	add_stack_history();
 	stack.shift();
 	if(stack.length==0){
 		stack0_state=0;
@@ -180,6 +181,7 @@ function button_swap(){
 	stack0_state=2;
 }
 function button_enter(){
+	add_stack_history();
 	if(stack[0]=="error"){
 		return;
 	}
@@ -191,6 +193,7 @@ function button_enter(){
 	stack0_state=0;
 }
 function button_exp(){
+	add_stack_history();
 	switch (stack0_state) {
 		case 0:
 			stack[0]="1e+0";
@@ -233,6 +236,7 @@ function button_back(){
 	}
 }
 function binary_operation(f, shift=true){
+	add_stack_history();
 	let y=parseFloat(stack[1]),x=parseFloat(stack[0]);
 	if(shift){
 		stack.shift();
@@ -241,6 +245,7 @@ function binary_operation(f, shift=true){
 	stack0_state=2;
 }
 function trigon_function(func, in_drg, out_drg){
+	add_stack_history();
 	let x=parseFloat(stack[0]);
 	if(in_drg){
 		switch (drg) {
@@ -291,6 +296,7 @@ function change_drg(convert_stack0){
 	drg=(drg+1)%3;
 }
 function input_const(value){
+	add_stack_history();
 	switch (stack0_state) {
 		case 0:
 			stack[0]=value.toString();
@@ -309,4 +315,19 @@ function factorial(n) {
 		ret *= i;
 	}
 	return ret;
+}
+function add_stack_history(){
+	stack_history.push(Array.from(stack));
+	if(stack_history.length>history_max){
+		stack_history.shift();
+	}
+}
+function undo(){
+	if(stack_history.length==0){
+		stack=[];
+		stack0_state=0;
+	}else{
+		stack=stack_history.pop();
+		stack0_state=2;
+	}
 }
