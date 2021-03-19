@@ -1,4 +1,4 @@
-let stack=[], stack_history=[], history_max=10, memory=[0,0,0,0,0,0,0,0,0,0], drg=0, radix=10, shift=0;
+let stack=[], stack_history=[["0"]], history_max=10, memory=[0,0,0,0,0,0,0,0,0,0], drg=0, radix=10, shift=0;
 let stack0_state=0; /* 0: blank, 1: typing, 2: result */
 let timeout, longtouch;
 const drg_text=["DEG", "RAD", "GRAD"];
@@ -127,6 +127,7 @@ function button_number(number){
 			stack[0]+=number;
 			break;
 		case 2:
+			add_stack_history();
 			stack.unshift(number);
 			stack0_state=1;
 			break;
@@ -144,6 +145,7 @@ function button_dot(){
 			}
 			break;
 		case 2:
+			add_stack_history();
 			stack.unshift("0.");
 			stack0_state=1;
 			break;
@@ -324,8 +326,7 @@ function add_stack_history(){
 }
 function undo(){
 	if(stack_history.length==0){
-		stack=[];
-		stack0_state=0;
+		return;
 	}else{
 		stack=stack_history.pop();
 		stack0_state=2;
