@@ -1,10 +1,13 @@
-let stack=[], stack_history=[["0"]], history_max=10, memory=[0,0,0,0,0,0,0,0,0,0], drg=0, radix=10, shift=0;
+let stack=[], stack_history=[["0"]], history_max=10, memory=["0","0","0","0","0","0","0","0","0","0"], drg=0, radix=10, shift=0;
 let stack0_state=0; /* 0: blank, 1: typing, 2: result */
 let timeout, longtouch;
 const drg_text=["DEG", "RAD", "GRAD"];
 const callbacks={
 	button_shift: ()=>{shift=1}, button_shift_l: ()=>{shift=0},
 	button_drg: ()=>{change_drg(false)}, button_drg_l: ()=>{change_drg(true)},
+	button_mr: ()=>{input_const(memory[0])}, button_mr_l: ()=>{memory_recall()},
+	button_ms: ()=>{memory[0]=stack[0]}, button_ms_l: ()=>{memory_store()},
+	button_mplus: ()=>{button_mplus()}, button_mplus_l: ()=>{button_mminus()},
 	button_sin: ()=>{trigon_function(Math.sin, true, false)}, button_sin_l: ()=>{trigon_function(Math.asin, false, true)},
 	button_cos: ()=>{trigon_function(Math.cos, true, false)}, button_cos_l: ()=>{trigon_function(Math.acos, false, true)},
 	button_tan: ()=>{trigon_function(Math.tan, true, false)}, button_tan_l: ()=>{trigon_function(Math.atan, false, true)},
@@ -35,6 +38,7 @@ const callbacks={
 	button_add: ()=>{binary_operation((y,x)=>y+x)}, button_add_l: ()=>{},
 	button_sub: ()=>{binary_operation((y,x)=>y-x)}, button_sub_l: ()=>{},
 	button_enter: ()=>{button_enter()}, button_enter_l: ()=>{},
+	overlay_close: ()=>{close_overlay()},
 }
 window.onload = ()=>{
 	$('button').on({
@@ -69,11 +73,12 @@ window.onload = ()=>{
 	$("div#display").on('touchstart', (e)=>{
 		copy_to_clipboard(0);
 		flash_stack(0,"copied");
-	})
+	});
+	close_overlay();
 	render_display();
 };
 function render_display(){
-	if(memory[0]){
+	if(memory[0]!="0"){
 		$("#m").text("M");
 	}else{
 		$("#m").text("");
@@ -331,4 +336,64 @@ function undo(){
 		stack=stack_history.pop();
 		stack0_state=2;
 	}
+}
+function show_overlay(title, titles, values, button=""){
+	if(titles.length==0||values.length==0||titles.length!=values.length){
+		return;
+	}
+	$("div#overlay_title").text(title);
+	titles.forEach((v,i,a)=>{
+		$("div#overlay").append('<div class="overlay_item_wrap"><div class="overlay_item_title">'+v+'</div><div class="overlay_item">'+values[i]+'</div></div>');
+	});
+	if(button!=""){
+		$("div#overlay").append('<button type="button" id="overlay_button">'+button+'</button>');
+	}
+	$("div#overlay").show();
+	$("div#overlay_wrap").show();
+}
+function close_overlay(){
+	$("div#overlay").hide();
+	$("div#overlay_wrap").hide();
+	$("div#overlay > div.overlay_item_wrap").remove();
+	$("div#overlay > button").remove();
+}
+function button_mplus(){
+	memory[0]=(parseFloat(memory[0])+parseFloat(stack[0])).toString();
+	stack0_state=2;
+}
+function button_mminus(){
+	memory[0]=(parseFloat(memory[0])-parseFloat(stack[0])).toString();
+	stack0_state=2;
+}
+function memory_recall(){
+	show_overlay("Recall Memory", ["M", "1", "2", "3", "4", "5", "6", "7", "8", "9"], memory, "Clear All");
+	$("div#overlay > div.overlay_item_wrap").toArray().forEach((v,i,a)=>{
+		$(v).on("touchstart", ()=>{
+			input_const(memory[i]);
+			close_overlay();
+			render_display();
+		})
+	});
+	$("div#overlay > button#overlay_button").on("touchstart", ()=>{
+		memory=["0","0","0","0","0","0","0","0","0","0"];
+		close_overlay();
+		render_display();
+	});
+	stack0_state=2;
+}
+function memory_store(){
+	show_overlay("Store Memory", ["M", "1", "2", "3", "4", "5", "6", "7", "8", "9"], memory, "Clear All");
+	$("div#overlay > div.overlay_item_wrap").toArray().forEach((v,i,a)=>{
+		$(v).on("touchstart", ()=>{
+			memory[i]=stack[0];
+			close_overlay();
+			render_display();
+		})
+	});
+	$("div#overlay > button#overlay_button").on("touchstart", ()=>{
+		memory=["0","0","0","0","0","0","0","0","0","0"];
+		close_overlay();
+		render_display();
+	});
+	stack0_state=2;
 }
