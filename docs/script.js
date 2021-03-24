@@ -31,7 +31,7 @@ const callbacks={
 	button_9: ()=>{button_number("9")}, button_9_l: ()=>{undo()},
 	button_sign: ()=>{button_sign()}, button_sign_l: ()=>{},
 	button_dot: ()=>{button_dot()}, button_dot_l: ()=>{},
-	button_exp: ()=>{button_exp()}, button_exp_l: ()=>{},
+	button_exp: ()=>{button_exp()}, button_exp_l: ()=>{binary_operation((y,x)=>y%x)},
 	button_back: ()=>{button_back()}, button_back_l: ()=>{},
 	button_mul: ()=>{binary_operation((y,x)=>y*x)}, button_mul_l: ()=>{},
 	button_div: ()=>{binary_operation((y,x)=>y/x)}, button_div_l: ()=>{},
