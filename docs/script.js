@@ -89,6 +89,9 @@ function render_display(){
 		$("#shift").text("");
 	}
 	$("#drg").text(drg_text[drg]);
+	if(stack.length==0){
+		stack.append("0");
+	}
 	$("#stack_count").text("STACK: "+stack.length);
 	[0,1,2,3].forEach((v,i,a)=>{
 		if(v<stack.length){
@@ -400,4 +403,20 @@ function memory_store(){
 function cls(){
 	stack=[];
 	stack0_state=0;
+}
+function show_stack(){
+	show_overlay("Stack", ["", "1", "2", "3", "4", "5", "6", "7", "8", "9"], memory, "Clear All");
+	$("div#overlay > div.overlay_item_wrap").toArray().forEach((v,i,a)=>{
+		$(v).on("touchstart", ()=>{
+			input_const(memory[i]);
+			close_overlay();
+			render_display();
+		})
+	});
+	$("div#overlay > button#overlay_button").on("touchstart", ()=>{
+		memory=["0","0","0","0","0","0","0","0","0","0"];
+		close_overlay();
+		render_display();
+	});
+	stack0_state=2;
 }
