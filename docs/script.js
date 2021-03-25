@@ -17,7 +17,7 @@ const callbacks={
 	button_sqrt: ()=>{binary_operation((y,x)=>x**(1/2), false)}, button_sqrt_l: ()=>{binary_operation((y,x)=>x**(1/3), false)},
 	button_x2: ()=>{binary_operation((y,x)=>x**2, false)}, button_x2_l: ()=>{binary_operation((y,x)=>x**3, false)},
 	button_1x: ()=>{binary_operation((y,x)=>1/x, false)}, button_1x_l: ()=>{binary_operation((y,x)=>y*(x/100), false)},
-	button_drop: ()=>{button_drop()}, button_drop_l: ()=>{},
+	button_drop: ()=>{button_drop()}, button_drop_l: ()=>{show_stack()},
 	button_swap: ()=>{button_swap()}, button_swap_l: ()=>{},
 	button_0: ()=>{button_number("0")}, button_0_l: ()=>{},
 	button_1: ()=>{button_number("1")}, button_1_l: ()=>{input_const(Math.PI)},
@@ -405,18 +405,13 @@ function cls(){
 	stack0_state=0;
 }
 function show_stack(){
-	show_overlay("Stack", ["", "1", "2", "3", "4", "5", "6", "7", "8", "9"], memory, "Clear All");
+	show_overlay("Stack", [...Array(stack.length).keys()].map(i => stack.length-i), stack.slice().reverse());
 	$("div#overlay > div.overlay_item_wrap").toArray().forEach((v,i,a)=>{
 		$(v).on("touchstart", ()=>{
-			input_const(memory[i]);
+			input_const(stack[stack.length-i-1]);
 			close_overlay();
 			render_display();
 		})
-	});
-	$("div#overlay > button#overlay_button").on("touchstart", ()=>{
-		memory=["0","0","0","0","0","0","0","0","0","0"];
-		close_overlay();
-		render_display();
 	});
 	stack0_state=2;
 }
